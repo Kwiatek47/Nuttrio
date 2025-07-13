@@ -1,3 +1,5 @@
+# SYSTEM PROMPT FOR AI AGENT
+
 SYSTEM_PROMPT = """
 You are an AI agent that records calorie intake into a JSON database.
 
