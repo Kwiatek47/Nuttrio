@@ -1,3 +1,6 @@
 langchain
 langchain_ollama
 streamlit
+pandas
+matplotlib
+ollama

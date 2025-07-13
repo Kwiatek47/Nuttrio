@@ -1,4 +1,7 @@
 import streamlit as st
+from agent.agent_init import run_llama
+
+from analysis.calories import return_plot
 
 def app():
         # Set the page configuration
@@ -10,6 +13,14 @@ def app():
         st.title("Nuttrio - Your Personal Diet Assistant")
         st.write("Welcome to Nuttrio! Your personal diet assistant for healthy eating.")
         st.write("Here you can track your meals, get personalized diet plans, get statistics about your current diet situation, and even more.")
+
+        # Display bar plot from analysis/calories.py
+        st.write("Calories consumed in the last 7 days:")
+        plot = return_plot()
+        st.pyplot(plot)
+
+        st.write("Ask me anything about your diet! I can help you track your meals, get personalized diet plans, and provide statistics about your current diet situation.")
+        st.write("Type your question below and I'll do my best to assist you.")
 
         # Initialize chat history
         if "messages" not in st.session_state:
@@ -28,12 +39,14 @@ def app():
                 with st.chat_message("user"):
                         st.markdown(prompt)
                 
-                # Simulate a response from the asssistant
-                response = prompt
-
                 with st.chat_message("assistant"):
-                        st.markdown(response)
+                        message_placeholder = st.empty()
+                        message_placeholder.markdown("⌛ Thinking…")
+                        response = run_llama(prompt)
+                        message_placeholder.markdown(response)
+
                 # Add assistant message to chat history
                 st.session_state.messages.append({"role": "assistant", "content": response})
+
 
 app()
